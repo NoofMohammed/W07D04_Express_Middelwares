@@ -48,6 +48,14 @@ app.use("/products", productsRouter);
 
 app.use(logBody);
 
+const error = (req,res,next) => {
+    res.status(404)
+    res.json("NOT FOUND")
+    next()
+}
+ 
+app.use(error)
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
