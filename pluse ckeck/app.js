@@ -7,9 +7,9 @@ app.use(express.json());
 
 const authRouter = express.Router();
 
-// const users = ["John", "Mark"];
+const users = ["John", "Mark"];
 
-const users = [];
+// const users = [];
 
 const logUsers = (req, res, next) => {
   console.log(users);
@@ -38,7 +38,7 @@ const error = (req, res, next) => {
 };
 app.use(error);
 
-app.use("/users", authRouter);
+app.use(authRouter);
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
