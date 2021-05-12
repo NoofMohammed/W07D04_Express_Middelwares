@@ -3,23 +3,42 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-const users = ["John", "Mark"];
+app.use(express.json());
 
+const authRouter = express.Router();
 
+// const users = ["John", "Mark"];
 
-app.get("/users", (req, res, next) => {
-  res.json(users);
-  next()
-});
+const users = [];
 
 const logUsers = (req, res, next) => {
   console.log(users);
   next();
 };
 
-app.use(logUsers);
+authRouter.use(logUsers);
 
+const logMethod = (req, res, next) => {
+  console.log(req.get);
+  next();
+};
+authRouter.use(logMethod);
+app.use(authRouter);
 
+authRouter.get("/users", (req, res, next) => {
+  if (users.length > 0) {
+    res.json(users);
+  } else {
+    next();
+  }
+});
+
+const error = (req, res, next) => {
+  res.json("No users");
+};
+app.use(error);
+
+app.use("/users", authRouter);
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
